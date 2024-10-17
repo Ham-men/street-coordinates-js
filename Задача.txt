@@ -1,0 +1,8 @@
+получить широту и долготу по физическому адрессу
+
+25.10 использовать https://yandex.ru/dev/maps/geocoder/ тут на JS
+https://yandex.ru/dev/maps/jsbox/2.1/direct_geocode - поиск по карте/Прямое геокодирование
+тут как раз то что нужно
+https://developer.tech.yandex.ru/services/3 - статистика API
+
+делать задержку в 2 секунды

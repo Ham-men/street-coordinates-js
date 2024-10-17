@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>карта</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script src="API из яндекс карты" type="text/javascript">
+    </script>
+    
+</head>
+
+<body>
+    <div id="map" style="width: 700px; height: 700px"></div>
+	
+	<input type="file" onchange="readFile(this)"> 
+
+	<script>	
+	let lines;
+	
+	function start_geo(i) {
+	  ymaps.ready(init(lines,i));
+	}
+	
+	function test(i) {
+	  console.log(i);
+	}
+
+	function readFile(input) {
+	  let file = input.files[0];
+	  let reader = new FileReader();
+		let a=0;
+	  reader.readAsText(file);
+
+	  reader.onload = function() {
+		 lines = reader.result.split('\n');
+		 for (let i = 0; i < lines.length-1; i++) {
+			setTimeout(start_geo,1000*i,i);	
+			i++;
+		 }
+		
+	  };
+
+	  reader.onerror = function() {
+		console.log(reader.error);
+	  };
+
+	}
+	
+	function init(lines,i) {
+
+			console.log(lines[i]);
+			i++;
+			ymaps.geocode(lines[i]).then(function (res) {
+					// Выбираем первый результат геокодирования.
+					var firstGeoObject = res.geoObjects.get(0),
+						// Координаты геообъекта.
+						coords = firstGeoObject.geometry.getCoordinates(),
+						// Область видимости геообъекта.
+						bounds = firstGeoObject.properties.get('boundedBy');
+
+					firstGeoObject.options.set('preset', 'islands#darkBlueDotIconWithCaption');
+					// Получаем строку с адресом и выводим в иконке геообъекта.
+					firstGeoObject.properties.set('iconCaption', firstGeoObject.getAddressLine());
+
+
+					
+					console.log('Исходное описание',lines[i]);
+					console.log('Полное описание объекта: %s', firstGeoObject.properties.get('text'));
+					console.log('координаты: %s', coords || '-');
+					
+					
+				});
+				
+				
+		//}
+		}
+	</script>
+	
+</body>
+
+</html>
